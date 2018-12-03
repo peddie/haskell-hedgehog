@@ -1,5 +1,6 @@
 {-# OPTIONS_HADDOCK not-home #-}
 {-# LANGUAGE CPP #-}
+{-# LANGUAGE TemplateHaskell #-}
 -- |
 -- This is a port of "Fast Splittable Pseudorandom Number Generators" by Steele
 -- et. al. [1].
@@ -60,6 +61,8 @@ import           Data.Time.Clock.POSIX (getPOSIXTime)
 import           Data.IORef (IORef)
 import qualified Data.IORef as IORef
 import           Data.Word (Word32, Word64)
+
+import           Language.Haskell.TH.Lift (deriveLift)
 
 import           System.IO.Unsafe (unsafePerformIO)
 import           System.Random (RandomGen)
@@ -233,3 +236,8 @@ instance RandomGen Seed where
 -- These functions are exported in case you need them in a pinch, but are not
 -- part of the public API and may change at any time, even as part of a minor
 -- update.
+
+------------------------------------------------------------------------
+-- FIXME Replace with DeriveLift when we drop 7.10 support.
+
+$(deriveLift ''Seed)
